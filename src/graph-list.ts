@@ -1,6 +1,6 @@
-export type Graph = number[][];
+export type GraphList = number[][];
 
-function graphDFS(graph: Graph) {
+function graphDFS(graph: GraphList) {
   const pre: number[] = Array(graph.length).fill(-1);
   const post: number[] = Array(graph.length).fill(-1);
   const pa: number[] = [];
@@ -31,7 +31,7 @@ function graphDFS(graph: Graph) {
   return { pre, post, pa };
 }
 
-export function uGraphLo(graph: Graph) {
+export function graphDFSLoList(graph: GraphList) {
   const { pre, post, pa } = graphDFS(graph);
 
   const vv: number[] = [];

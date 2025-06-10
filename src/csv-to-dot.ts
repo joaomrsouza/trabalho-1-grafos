@@ -1,5 +1,5 @@
 import { createGraphDotFile } from "./create-graph-dot";
-import { tarjan } from "./tarjan";
+import { tarjanList } from "./tarjan";
 import { dotToSVG } from "./util/cli";
 import { edgesToAdjList } from "./util/csv-to-data";
 import { readCsvFile } from "./util/read-csv";
@@ -17,7 +17,8 @@ const apply = argRest || [];
 
 let colorMap = new Map<string, string>();
 
-if (apply.includes("TARJAN")) colorMap = tarjan(edgesToAdjList(rows)).colorMap;
+if (apply.includes("TARJAN"))
+  colorMap = tarjanList(edgesToAdjList(rows)).colorMap;
 
 createGraphDotFile(filename, rows, { colorMap });
 
