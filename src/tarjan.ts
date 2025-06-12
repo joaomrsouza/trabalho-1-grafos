@@ -6,13 +6,15 @@ import {
 } from "./tarjan-articulations";
 import { tarjanBridgesList, tarjanBridgesMatrix } from "./tarjan-bridges";
 
+// Calcula as pontes e vértices de articulação para um grafo em formato de lista de adjacência
 export function tarjanList(graph: GraphList) {
-  const bridges = tarjanBridgesList(graph);
-  const articulations = tarjanArticulationsList(graph);
+  const bridges = tarjanBridgesList(graph); // Calcula as pontes
+  const articulations = tarjanArticulationsList(graph); // Calcula os vértices de articulação
 
   return {
     articulations: articulations.count,
     bridges: bridges.count,
+    // Junta os mapas de cores das pontes e vértices de articulação
     colorMap: new Map([
       ...bridges.colorMap.entries(),
       ...articulations.colorMap.entries(),
@@ -20,6 +22,7 @@ export function tarjanList(graph: GraphList) {
   };
 }
 
+// Calcula as pontes e vértices de articulação para um grafo em formato de matriz de adjacência
 export function tarjanMatrix(graph: GraphMatrix) {
   const bridges = tarjanBridgesMatrix(graph);
   const articulations = tarjanArticulationsMatrix(graph);
@@ -27,6 +30,7 @@ export function tarjanMatrix(graph: GraphMatrix) {
   return {
     articulations: articulations.count,
     bridges: bridges.count,
+    // Junta os mapas de cores das pontes e vértices de articulação
     colorMap: new Map([
       ...bridges.colorMap.entries(),
       ...articulations.colorMap.entries(),

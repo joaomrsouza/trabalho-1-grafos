@@ -1,6 +1,7 @@
 import { spawn, type SpawnOptions } from "child_process";
 import { getPath } from "./file";
 
+// Transforma em promise o spawn para executar comandos do sistema
 function spawnPromise(
   command: string,
   args: string[] = [],
@@ -34,10 +35,13 @@ function spawnPromise(
   });
 }
 
+// Converte um arquivo dot para svg usando o dot ou neato (requer instalar o graphviz e ter o dot ou neato no PATH)
 export function dotToSVG(filename: string, engine: "dot" | "neato") {
+  // Obtém os caminhos dos arquivos
   const filePath = getPath(`dot/${filename}.dot`);
   const outPath = getPath(`svg/${filename}-${engine}.svg`);
 
+  // Executa o comando para converter o arquivo dot para svg
   spawnPromise(engine, ["-Tsvg", filePath, "-o", outPath], {
     stdio: ["pipe", "pipe", "inherit"],
   })

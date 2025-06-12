@@ -1,0 +1,64 @@
+Como Executar os Arquivos .exe Nesta Pasta
+==========================================
+
+Esta pasta contém executáveis compilados para gerar e processar dados de grafos. Os principais executáveis são:
+
+- create-graph.exe
+- csv-to-dot.exe
+
+Pré-requisitos
+--------------
+- Para saída SVG, o Graphviz (https://graphviz.org/download/) (comandos `dot` e `neato`) deve estar instalado e disponível no PATH do sistema.
+
+Uso
+---
+
+1. Gerar um Grafo em CSV
+------------------------
+Use o `create-graph.exe` para gerar um grafo em formato CSV.
+
+Sintaxe:
+    create-graph.exe <TAMANHO> <MODO> [DOT] [TARJAN] [SVG]
+
+Argumentos:
+- `<TAMANHO>`: Número de nós (inteiro positivo, ex: 15)
+- `<MODO>`: Modo do grafo (`FULL`, `PREM` ou `PDIAG`). O padrão é `FULL`.
+- `DOT`: (Opcional) Também gera um arquivo DOT.
+- `TARJAN`: (Opcional) Aplica o algoritmo de Tarjan para colorir as CFCs no DOT.
+- `SVG`: (Opcional) Gera imagens SVG usando o Graphviz.
+
+Exemplo:
+    create-graph.exe 15 FULL DOT TARJAN SVG
+
+Isso irá gerar:
+- CSV: `generated/csv/graph-15-full.csv`
+- DOT: `generated/dot/graph-15-full.dot`
+- SVG: `generated/svg/graph-15-full-dot.svg` e `graph-15-full-neato.svg`
+
+2. Converter CSV para DOT e SVG
+-------------------------------
+Use o `csv-to-dot.exe` para converter um arquivo CSV existente para DOT e, opcionalmente, SVG.
+
+Sintaxe:
+    csv-to-dot.exe <NOMEARQUIVO> [TARJAN] [SVG]
+
+Argumentos:
+- `<NOMEARQUIVO>`: Nome do arquivo CSV em `generated/csv/` (sem a extensão `.csv`)
+- `TARJAN`: (Opcional) Aplica o algoritmo de Tarjan para colorir as CFCs.
+- `SVG`: (Opcional) Gera imagens SVG.
+
+Exemplo:
+    csv-to-dot.exe graph-15-full TARJAN SVG
+
+Isso irá ler `generated/csv/graph-15-full.csv` e gerar os arquivos DOT e SVG correspondentes.
+
+Locais de Saída
+---------------
+- Arquivos CSV: `generated/csv/`
+- Arquivos DOT: `generated/dot/`
+- Arquivos SVG: `generated/svg/`
+
+Observações
+-----------
+- Todos os arquivos gerados são colocados no diretório `generated/`.
+- Certifique-se de que o Graphviz (https://graphviz.org/download/) está instalado para a geração de SVG.

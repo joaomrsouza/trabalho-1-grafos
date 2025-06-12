@@ -4,7 +4,10 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "build": "bun build --compile --outfile=out/create-graph.exe ./src/create-graph.ts && bun build --compile --outfile=out/csv-to-dot.exe ./src/csv-to-dot.ts"
+    "build:create-graph": "bun build --compile --outfile=out/create-graph.exe ./src/create-graph.ts",
+    "build:csv-to-dot": "bun build --compile --outfile=out/csv-to-dot.exe ./src/csv-to-dot.ts",
+    "build:copy-instructions": "copy EXE-INSTRUCTIONS.txt out\\README.txt",
+    "build": "bun build:create-graph && bun build:csv-to-dot && bun build:copy-instructions"
   },
   "devDependencies": {
     "@types/bun": "latest"
