@@ -5,27 +5,29 @@ Esta pasta contém executáveis compilados para gerar e processar dados de grafo
 
 - create-graph.exe
 - csv-to-dot.exe
+- osm-to-dot.exe
 
-Pré-requisitos
---------------
-- Para saída SVG, o Graphviz (https://graphviz.org/download/) (comandos `dot` e `neato`) deve estar instalado e disponível no PATH do sistema.
+Pré-requisitos Gerais
+---------------------
+- Para geração de arquivos SVG, é necessário ter o Graphviz instalado e disponível no PATH do sistema (https://graphviz.org/download/), com os comandos `dot` e `neato`.
+- Os arquivos de entrada devem estar nos diretórios corretos, conforme cada executável.
 
 Uso
 ---
 
-1. Gerar um Grafo em CSV
-------------------------
-Use o `create-graph.exe` para gerar um grafo em formato CSV.
+1. Gerar um Grafo Aleatório em CSV, DOT e SVG
+---------------------------------------------
+Use o `create-graph.exe` para gerar um grafo quadrado aleatório em formato CSV. Opcionalmente, gere também arquivos DOT e SVG.
 
 Sintaxe:
     create-graph.exe <TAMANHO> <MODO> [DOT] [TARJAN] [SVG]
 
 Argumentos:
-- `<TAMANHO>`: Número de nós (inteiro positivo, ex: 15)
+- `<TAMANHO>`: Raiz quadrada do número de nós do grafo (inteiro positivo, ex: 3 para 9 nós)
 - `<MODO>`: Modo do grafo (`FULL`, `PREM` ou `PDIAG`). O padrão é `FULL`.
-- `DOT`: (Opcional) Também gera um arquivo DOT.
+- `DOT`: (Opcional) Gera o arquivo DOT correspondente ao grafo.
 - `TARJAN`: (Opcional) Aplica o algoritmo de Tarjan para colorir as CFCs no DOT.
-- `SVG`: (Opcional) Gera imagens SVG usando o Graphviz.
+- `SVG`: (Opcional) Gera imagens SVG usando o Graphviz (`dot` e `neato`).
 
 Exemplo:
     create-graph.exe 15 FULL DOT TARJAN SVG
@@ -33,32 +35,68 @@ Exemplo:
 Isso irá gerar:
 - CSV: `generated/csv/graph-15-full.csv`
 - DOT: `generated/dot/graph-15-full.dot`
-- SVG: `generated/svg/graph-15-full-dot.svg` e `graph-15-full-neato.svg`
+- SVG: `generated/svg/graph-15-full-dot.svg` e `generated/svg/graph-15-full-neato.svg`
 
 2. Converter CSV para DOT e SVG
 -------------------------------
-Use o `csv-to-dot.exe` para converter um arquivo CSV existente para DOT e, opcionalmente, SVG.
+Use o `csv-to-dot.exe` para converter um arquivo CSV existente (em `generated/csv/`) para DOT e, opcionalmente, SVG.
 
 Sintaxe:
     csv-to-dot.exe <NOMEARQUIVO> [TARJAN] [SVG]
 
 Argumentos:
 - `<NOMEARQUIVO>`: Nome do arquivo CSV em `generated/csv/` (sem a extensão `.csv`)
-- `TARJAN`: (Opcional) Aplica o algoritmo de Tarjan para colorir as CFCs.
-- `SVG`: (Opcional) Gera imagens SVG.
+- `TARJAN`: (Opcional) Aplica o algoritmo de Tarjan para colorir as arestas e vértices no DOT.
+- `SVG`: (Opcional) Gera imagens SVG usando o Graphviz (`dot` e `neato`).
 
 Exemplo:
     csv-to-dot.exe graph-15-full TARJAN SVG
 
-Isso irá ler `generated/csv/graph-15-full.csv` e gerar os arquivos DOT e SVG correspondentes.
+Isso irá ler `generated/csv/graph-15-full.csv` e gerar:
+- DOT: `generated/dot/graph-15-full.dot`
+- SVG: `generated/svg/graph-15-full-dot.svg` e `generated/svg/graph-15-full-neato.svg`
 
-Locais de Saída
----------------
-- Arquivos CSV: `generated/csv/`
-- Arquivos DOT: `generated/dot/`
-- Arquivos SVG: `generated/svg/`
+3. Converter OSM para DOT e SVG
+-------------------------------
+Use o `osm-to-dot.exe` para converter um arquivo OSM (OpenStreetMap) em um arquivo DOT e, opcionalmente, SVG. O arquivo de entrada deve estar em `data/` com extensão `.osm`.
+
+Sintaxe:
+    osm-to-dot.exe <NOMEARQUIVO> [TARJAN] [SVG]
+
+Argumentos:
+- `<NOMEARQUIVO>`: Nome do arquivo OSM em `data/` (sem a extensão `.osm`)
+- `TARJAN`: (Opcional) Aplica o algoritmo de Tarjan para colorir as arestas e vértices no DOT.
+- `SVG`: (Opcional) Gera imagem SVG usando o Graphviz (apenas engine `neato`).
+
+Exemplo:
+    osm-to-dot.exe brasilia TARJAN SVG
+
+Isso irá ler `data/brasilia.osm` e gerar:
+- DOT: `generated/dot/brasilia.dot`
+- SVG: `generated/svg/brasilia-neato.svg`
+
+Arquivos Intermediários e Auxiliares Gerados
+--------------------------------------------
+Além dos arquivos DOT e SVG, a execução do `osm-to-dot.exe` gera outros arquivos úteis:
+- `generated/json/<nome>-osm.json`: Conversão do arquivo OSM original para JSON.
+- `generated/json/<nome>-position-map.json`: Mapeamento de índices dos nós para posições (latitude, longitude) para visualização geográfica.
+- `generated/coords/<nome>.coords`: Lista de coordenadas (latitude, longitude) dos nós utilizados no grafo.
+- `generated/csv/<nome>.csv`: Grafo extraído do OSM em formato CSV (arestas).
+
+Esses arquivos podem ser utilizados para depuração, visualização avançada ou processamento adicional.
+
+Locais de Entrada e Saída
+-------------------------
+- Arquivos OSM de entrada: `data/`
+- Arquivos CSV de entrada: `generated/csv/`
+- Arquivos DOT gerados: `generated/dot/`
+- Arquivos SVG gerados: `generated/svg/`
+- Arquivos JSON intermediários: `generated/json/`
+- Arquivos de coordenadas: `generated/coords/`
 
 Observações
 -----------
-- Todos os arquivos gerados são colocados no diretório `generated/`.
-- Certifique-se de que o Graphviz (https://graphviz.org/download/) está instalado para a geração de SVG.
+- Todos os arquivos gerados são colocados no diretório `generated/` e suas subpastas.
+- Certifique-se de que o Graphviz está instalado e disponível no PATH do sistema para a geração de SVG.
+- O `osm-to-dot.exe` utiliza apenas a engine "neato" do Graphviz para visualização geográfica.
+- Os nomes dos arquivos de saída seguem o padrão do nome de entrada, sem extensão, e com sufixos conforme o tipo de arquivo e engine utilizada.

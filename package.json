@@ -5,14 +5,19 @@
   "private": true,
   "scripts": {
     "build:create-graph": "bun build --compile --outfile=out/create-graph.exe ./src/create-graph.ts",
+    "build:osm-to-dot": "bun build --compile --outfile=out/osm-to-dot.exe ./src/osm-to-dot.ts",
     "build:csv-to-dot": "bun build --compile --outfile=out/csv-to-dot.exe ./src/csv-to-dot.ts",
-    "build:copy-instructions": "copy EXE-INSTRUCTIONS.txt out\\README.txt",
-    "build": "bun build:create-graph && bun build:csv-to-dot && bun build:copy-instructions"
+    "build:copy-instructions": "bun x shx cp EXE-INSTRUCTIONS.txt out/README.txt",
+    "build": "bun run build:create-graph && bun run build:osm-to-dot && bun run build:csv-to-dot && bun run build:copy-instructions"
   },
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5"
+  },
+  "dependencies": {
+    "@types/xml2js": "^0.4.14",
+    "xml2js": "^0.6.2"
   }
 }
