@@ -58,22 +58,24 @@ Isso irá ler `generated/csv/graph-15-full.csv` e gerar:
 
 3. Converter OSM para DOT e SVG
 -------------------------------
-Use o `osm-to-dot.exe` para converter um arquivo OSM (OpenStreetMap) em um arquivo DOT e, opcionalmente, SVG. O arquivo de entrada deve estar em `data/` com extensão `.osm`.
+Use o `osm-to-dot.exe` para converter um arquivo OSM (OpenStreetMap) em um arquivo DOT e, opcionalmente, SVG ou mapa HTML interativo. O arquivo de entrada deve estar em `data/` com extensão `.osm`.
 
 Sintaxe:
-    osm-to-dot.exe <NOMEARQUIVO> [TARJAN] [SVG]
+    osm-to-dot.exe <NOMEARQUIVO> [TARJAN] [SVG] [MAP]
 
 Argumentos:
 - `<NOMEARQUIVO>`: Nome do arquivo OSM em `data/` (sem a extensão `.osm`)
 - `TARJAN`: (Opcional) Aplica o algoritmo de Tarjan para colorir as arestas e vértices no DOT.
 - `SVG`: (Opcional) Gera imagem SVG usando o Graphviz (apenas engine `neato`).
+- `MAP`: (Opcional) Gera um arquivo HTML interativo com visualização geográfica do grafo usando OpenStreetMap.
 
 Exemplo:
-    osm-to-dot.exe brasilia TARJAN SVG
+    osm-to-dot.exe sobral TARJAN SVG MAP
 
-Isso irá ler `data/brasilia.osm` e gerar:
-- DOT: `generated/dot/brasilia.dot`
-- SVG: `generated/svg/brasilia-neato.svg`
+Isso irá ler `data/sobral.osm` e gerar:
+- DOT: `generated/dot/sobral.dot`
+- SVG: `generated/svg/sobral-neato.svg`
+- HTML: `generated/html/sobral.html` (mapa interativo)
 
 Arquivos Intermediários e Auxiliares Gerados
 --------------------------------------------
@@ -91,6 +93,7 @@ Locais de Entrada e Saída
 - Arquivos CSV de entrada: `generated/csv/`
 - Arquivos DOT gerados: `generated/dot/`
 - Arquivos SVG gerados: `generated/svg/`
+- Arquivos HTML gerados: `generated/html/`
 - Arquivos JSON intermediários: `generated/json/`
 - Arquivos de coordenadas: `generated/coords/`
 
@@ -100,3 +103,5 @@ Observações
 - Certifique-se de que o Graphviz está instalado e disponível no PATH do sistema para a geração de SVG.
 - O `osm-to-dot.exe` utiliza apenas a engine "neato" do Graphviz para visualização geográfica.
 - Os nomes dos arquivos de saída seguem o padrão do nome de entrada, sem extensão, e com sufixos conforme o tipo de arquivo e engine utilizada.
+- A funcionalidade MAP não requer instalação adicional de software, apenas um navegador web para visualizar o arquivo HTML gerado.
+- O mapa interativo utiliza a biblioteca Leaflet.js e tiles do OpenStreetMap, portanto requer conexão à internet para carregar os mapas base.

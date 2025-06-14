@@ -102,10 +102,13 @@ ${groupNodes.join(";\n")}
       colCounter,
     ];
 
+    const posX = Number((positionX / density).toFixed(4));
+    const posY = Number((positionY / density).toFixed(4));
+
     // Cria a string do vértice
-    const nodeString = `  ${i} [pos="${positionY / density},${
-      positionX / density
-    }!"${color ? `, fillcolor="${color}"` : ""}];`;
+    const nodeString = `  ${i} [pos="${posY},${posX}!"${
+      color ? `, fillcolor="${color}"` : ""
+    }];`;
 
     colCounter++; // Atualiza o contador de colunas
     if (colCounter > higherNodeIndex) colCounter = 0; // Volta para a primeira coluna se chegar no final da grade
@@ -135,8 +138,14 @@ ${groupNodes.join(";\n")}
   // * Nota: Se for fornecido um positionMap os nodeGroups não são usados, visto que o intuito é que grafo deve ser renderizado com a engine "neato"
   return `
 ${digraph ? "di" : ""}graph {
+${
+  positionMap
+    ? ""
+    : `
   rankdir = LR;
   nodesep="${0.5 / density}";
+`
+}
 
   node [
     ${nodeConfigString}

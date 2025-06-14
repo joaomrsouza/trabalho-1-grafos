@@ -39,6 +39,7 @@ export function writeFile(filename: string, content: string) {
     path.join(generatedDir, "dot"),
     path.join(generatedDir, "json"),
     path.join(generatedDir, "coords"),
+    path.join(generatedDir, "html"),
   ];
 
   // Cria os diretórios se não existirem

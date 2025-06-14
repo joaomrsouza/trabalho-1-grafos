@@ -8,6 +8,12 @@ const PREM = 0.05; // Probabilidade de remover uma aresta não-diagonal
 function createGraphCSV(size: number, mode: GraphMode) {
   const edges: string[] = [];
 
+  // Verifica se o modo é PREM ou FULL
+  const isPrem = mode === "PREM" || mode === "FULL";
+
+  // Verifica se o modo é PDIAG ou FULL
+  const isDiag = mode === "PDIAG" || mode === "FULL";
+
   // Função para calcular o índice de um vértice
   function index(i: number, j: number) {
     return i * size + j;
@@ -17,12 +23,6 @@ function createGraphCSV(size: number, mode: GraphMode) {
   for (let i = 0; i < size; i++) {
     for (let j = 0; j < size; j++) {
       const currentIndex = index(i, j);
-
-      // Verifica se o modo é PREM ou FULL
-      const isPrem = mode === "PREM" || mode === "FULL";
-
-      // Verifica se o modo é PDIAG ou FULL
-      const isDiag = mode === "PDIAG" || mode === "FULL";
 
       // Cria uma aresta horizontal
       if (j + 1 < size) {

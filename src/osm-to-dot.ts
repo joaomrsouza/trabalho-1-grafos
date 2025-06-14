@@ -1,6 +1,7 @@
 // Arquivo de ponto de entrada para converter um arquivo OSM em um arquivo DOT e SVG
 
 import { createGraphDotFile } from "./create-graph-dot";
+import { createMapHTMLFile } from "./create-map-view";
 import { processOSMJSON } from "./process-osm-json";
 import { tarjanList } from "./tarjan";
 import { dotToSVG } from "./util/cli";
@@ -36,20 +37,30 @@ const apply = argRest || [];
 
 // Cria o mapa de cores
 let colorMap = new Map<string, string>();
+let articulations = 0;
+let bridges = 0;
 
 // Obtem o position map gerado pelo processamento do OSM JSON
 const positionMap = getPositionMap(filename);
 
 // Se o argumento TARJAN estiver presente, calcula as pontes e vértices de articulação
-if (apply.includes("TARJAN"))
-  colorMap = tarjanList(edgesToAdjList(rows)).colorMap;
+if (apply.includes("TARJAN")) {
+  const tarjanResult = tarjanList(edgesToAdjList(rows));
+  colorMap = tarjanResult.colorMap;
+  articulations = tarjanResult.articulations;
+  bridges = tarjanResult.bridges;
+}
 
 // Cria o arquivo DOT
 createGraphDotFile(filename, rows, {
   colorMap,
   positionMap,
-  density: 10000 * 2, // Densidade ajustada para escala de latitude e longitude
+  density: 0.001 * 2, // Densidade ajustada para escala de latitude e longitude
 });
+
+// Se o argumento MAP estiver presente, cria o arquivo HTML do mapa
+if (apply.includes("MAP"))
+  createMapHTMLFile(filename, colorMap, articulations, bridges);
 
 // Se o argumento SVG estiver presente, converte o arquivo DOT para SVG
 // * Nota: Utiliza somente a engine "neato", visto que o intuito é visualizar o grafo em analogia a um mapa

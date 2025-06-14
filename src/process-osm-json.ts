@@ -170,11 +170,7 @@ export function processOSMJSON(filename: string) {
     .flatMap((nodeId) => {
       const node = nodeInfoMap.get(nodeId);
       // O decimal é removido para que a densidade do grafo seja regulada no script de geração do DOT
-      return node
-        ? `  [${node.index}, [${String(node.lat).replace(".", "")},${String(
-            node.lon
-          ).replace(".", "")}]]`
-        : [];
+      return node ? `  [${node.index}, [${node.lat},${node.lon}]]` : [];
     })
     .join(",\n");
 
