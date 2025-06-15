@@ -2,7 +2,7 @@ import type { GraphMode } from "./create-graph";
 import { writeFile } from "./util/file";
 
 const PDIAG = 0.1; // Probabilidade de uma aresta diagonal
-const PREM = 0.05; // Probabilidade de remover uma aresta não-diagonal
+const PREM = 0.15; // Probabilidade de remover uma aresta não-diagonal
 
 // Cria um grafo quadrado em formato CSV (header: "origem,destino", linhas: "u,v") com arestas aleatórias
 function createGraphCSV(size: number, mode: GraphMode) {
